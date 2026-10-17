@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md. Rana Hamid - Portfolio</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #090d16 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-highlight: rgba(255, 255, 255, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+        }
+
+        /* Hide Scrollbars completely across browsers */
+        html {
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        /* Scroll Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Apple Liquid Glass Styling */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 var(--glass-highlight);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.1);
+        }
+
+        /* Header & Profile */
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            header {
+                flex-direction: row;
+                text-align: left;
+                gap: 30px;
+            }
+        }
+
+        .profile-img-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 25px var(--accent-glow);
+            flex-shrink: 0;
+            transition: transform 0.4s ease;
+        }
+
+        .profile-img-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Gradient Overlay on Profile Image */
+        .profile-img-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.5), transparent);
+            pointer-events: none;
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .profile-info .subtitle {
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .contact-grid {
+                justify-content: flex-start;
+            }
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .contact-item:hover {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+        }
+
+        .bio-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 15px;
+        }
+
+        /* Section Headings */
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* CV Info Grid Layout */
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .cv-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .cv-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 20px;
+            border-radius: 16px;
+            transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .cv-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .cv-card h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .cv-card ul {
+            list-style-type: none;
+            padding-left: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .cv-card li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .cv-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 768px) {
+            .carousel-container {
+                height: 450px;
+            }
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 6s ease;
+        }
+
+        .carousel-slide.active img {
+            transform: scale(1.04);
+        }
+
+        /* Enhanced Gradient Overlays for Carousel Visibility */
+        .carousel-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(9, 13, 22, 0.9) 0%, rgba(9, 13, 22, 0.3) 50%, rgba(15, 23, 42, 0.2) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .carousel-caption {
+            position: relative;
+            z-index: 3;
+            padding: 30px 25px 25px;
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent);
+            color: #0f172a;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev {
+            left: 15px;
+        }
+
+        .next {
+            right: 15px;
+        }
+
+        /* Cards Grid for Achievements & Projects */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.08);
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        .badge {
+            align-self: flex-start;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            transition: background 0.3s;
+        }
+
+        .card:hover .badge {
+            background: rgba(56, 189, 248, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .card:hover .card-title {
+            color: var(--accent);
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Header & Profile Section -->
+        <header class="glass-panel reveal">
+            <div class="profile-img-container">
+                <img id="profilePhoto" src="./profile.jpg" alt="Md. Rana Hamid">
+            </div>
+            <div class="profile-info">
+                <h1>Md. Rana Hamid</h1>
+                <div class="subtitle">Electrical Engineering Student | Aspiring Researcher in Renewable Energy</div>
+                <div class="contact-grid">
+                    <div class="contact-item"> <a href="mailto:ranahamid11tr@gmail.com">✉️ranahamid11tr@gmail.com</a>
+                    </div>
+                    <div class="contact-item"> <a href="tel:+8801792221069">📱(+880) 1792221069</a>
+                    </div>
+                    <div class="contact-item"> <a href="https://maps.app.goo.gl/HqUrMbXdv3xK5ZN17">📍 Mirpur-10, Dhaka,
+                            Bangladesh</a>
+                    </div>
+                </div>
+                <p class="bio-text">
+                    Welcome to my academic portfolio!
+                    I am an aspiring electrical engineer from Bangladesh, passionate about renewable energy, electrical
+                    power systems, and technological innovation. I achieved a GPA of 5.00 in SSC and a CGPA of 3.79/4.00
+                    in Diploma in Electrical Engineering. Currently, I am pursuing a BSc in Electrical and Electronic
+                    Engineering at the University of Scholars.
+                    Through academic projects, industrial training, and practical experience, I aim to strengthen my
+                    engineering expertise and contribute to sustainable technological development. My goal is to pursue
+                    advanced studies, engage in research, and create meaningful solutions for a better future.
+                    Explore my journey of academic excellence, engineering, and innovation.
+                </p>
+            </div>
+        </header>
+
+        <!-- CV Details Section -->
+        <div class="glass-panel reveal">
+            <h2>Professional Profile & Background</h2>
+            <div class="cv-grid">
+                <div class="cv-card">
+                    <h3>Education & Training</h3>
+                    <ul>
+                        <li><strong>Tangail Polytechnic Institute</strong> (2020–2024)</li>
+                        <li>Diploma in Engineering - Software (AutoCAD Electrical)</li>
+                        <li>CGPA: 3.79 out of 4 (Field of study: Electricity and energy)</li>
+                    </ul>
+                </div>
+                <div class="cv-card">
+                    <h3>Work Experience</h3>
+                    <ul>
+                        <li><strong>Explosives Engineer</strong> - Dhaka, Bangladesh (14/09/2025 – Present)</li>
+                        <li>Maintenance of Lift and Generator</li>
+                        <li>Building strong relations with suppliers</li>
+                    </ul>
+                </div>
+                <div class="cv-card">
+                    <h3>Licenses & Certifications</h3>
+                    <ul>
+                        <li><strong>Electricity Licensing Board, Bangladesh</strong></li>
+                        <li>License Number: E20250060588 (Category: BC)</li>
+                        <li>Valid: 19th March 2025 to 18th March 2029</li>
+                    </ul>
+                </div>
+                <div class="cv-card">
+                    <h3>Technical Skills & Equipment</h3>
+                    <ul>
+                        <li>Oscilloscope, Multimeters, PLC, Soldering tools</li>
+                        <li>Power Distribution, Circuit Design, House Wiring</li>
+                        <li>Control Systems, Troubleshooting & Safety Regulations</li>
+                        <li>Microsoft Office (Excel, PowerPoint)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Section (5 Slides) -->
+        <div class="glass-panel reveal">
+            <h2>Driven by Innovation, Inspired by a Sustainable Future.</h2>
+            <div class="carousel-container" id="carouselContainer">
+                <div class="carousel-slide active">
+                    <img src="./carousel (1).jpg" alt="Lab Work">
+                    <div class="carousel-caption">Design and Development of a wind Energy -Based Electricity Generation
+                        system</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="./carousel (2).jpg" alt="Team Work">
+                    <div class="carousel-caption"> Meritorious student Recognition Award </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="./carousel (3).jpg" alt="Field Work">
+                    <div class="carousel-caption">Technical Presentation at a University Event </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="./carousel (4).jpg" alt="Control Panel">
+                    <div class="carousel-caption">Student speech at a Educational Event</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="./carousel (5).jpg" alt="Safety Regulation">
+                    <div class="carousel-caption">Team Leadership and Management
+                    </div>
+                </div>
+
+                <button class="carousel-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+                <button class="carousel-btn next" onclick="changeSlide(1)">&#10095;</button>
+            </div>
+        </div>
+
+        <!-- Achievement Cards Section (6 Cards) -->
+        <div class="glass-panel reveal">
+            <h2>Achievements</h2>
+            <div class="cards-grid" id="cardsGrid">
+                <div class="card">
+                    <img src="./card (1).jpg" alt="Card 1">
+                    <div class="card-content">
+                        <span class="badge">12 June 2024</span>
+                        <h3 class="card-title">Award of Recognition at a Farewell Ceremony</h3>
+                        <p class="card-description"> I received an award from my respected teachers during a farewell
+                            ceremony.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./card (2).jpg" alt="Card 1">
+                    <div class="card-content">
+                        <span class="badge">24 September 2024</span>
+                        <h3 class="card-title">First price in College's math competition</h3>
+                        <p class="card-description">I secured first place in a quiz of math competition from my college
+                            and received the prize from the collage teachers.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./card (3).jpg" alt="Card 1">
+                    <div class="card-content">
+                        <span class="badge">19 October 2022</span>
+                        <h3 class="card-title">Second prize in College Quiz competition</h3>
+                        <p class="card-description">I secured second place in a quiz competition organized by my college
+                            and received the prize from the collage principle.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./card (4).jpg" alt="Card 1">
+                    <div class="card-content">
+                        <span class="badge">11 September 2025</span>
+                        <h3 class="card-title">Professional welcome and career Milestone</h3>
+                        <p class="card-description"> I was warmly welcomed by the company CEO. This memorable occasion
+                            marked an important milestone in my professional Journey.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./card (5).jpg" alt="Card 1">
+                    <div class="card-content">
+                        <span class="badge">8 December 2026</span>
+                        <h3 class="card-title">Recognition for Academic Excellence SSC GPA-5.00</h3>
+                        <p class="card-description">I received a gift from a member of parliament( MP) in recognition of
+                            my academic achievement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Carousel Logic
+        let currentSlide = 0;
+
+        function updateSlides() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlide);
+            });
+        }
+
+        function changeSlide(direction) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            updateSlides();
+        }
+
+        // Scroll Reveal Animation using Intersection Observer
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
